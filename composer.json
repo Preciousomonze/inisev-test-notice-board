@@ -1,0 +1,10 @@
+{
+    "require": {            
+    },
+     "autoload": {
+        "classmap": [
+          "vendor/pekky/DB"
+        ]
+      }
+    }
+    
