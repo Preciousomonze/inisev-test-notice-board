@@ -10,8 +10,12 @@ Sections
  - User secion
      - View Notes
  
- ### GLance
+ ### GLance 🔍
  ![](Screenshot.png "GLance")
+ 
+ ### Assumed weird thoughts.
+ Yeah, I know, wondering what 'Pekky-...' is?
+ My little library i wrote some time back, imperfect, but does the work done :).
  
  ### How to install and Use
   - Run the DB install to your taste in the `database` folder.
