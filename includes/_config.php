@@ -17,7 +17,7 @@ $db_data = array(
 		'db_host'     => 'localhost',
 		'db_name'     => 'cx_notice_board',
 		'db_user'     => 'root',
-		'db_password' => 'aRctNdJduXFtRhWH7UuRAT',
+		'db_password' => 'aRctNdJduXFtRhWH7UuRA',
 		'db_charset'  => 'utf8',
 	),
 	'test' => array( // Defining TEST ENVIRONMENT for DB.
