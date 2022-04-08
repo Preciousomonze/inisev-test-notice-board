@@ -2,6 +2,7 @@
   /**
    * Gets notices.
    */
+  session_start(); // We need this incase an admin is still logged in.
   header("Content-Type: application/json");
 
   require_once '../includes/_config.php';
