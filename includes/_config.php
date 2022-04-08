@@ -8,13 +8,13 @@
  */ 
 
  // Environment , production, test or offline :) dont forget to change.
-define('ENV', 'test');
+define('ENV', 'production');
 
 ###############################################################################
 /** Defining ENVIRONMENT for DB*/
 $db_data = array(
 	'production' => array( // Defining LIVE ENVIRONMENT for DB.
-		'db_host'     => 'localhost',
+		'db_host'     => '188.34.190.123',
 		'db_name'     => 'cx_notice_board',
 		'db_user'     => 'root',
 		'db_password' => 'aRctNdJduXFtRhWH7UuRAT',
@@ -32,8 +32,8 @@ $db_data = array(
 // Run the Environment sorting.
 sort_env_vars(ENV);
 
-/** Default connection type to the database, incase you wanna change driver ;) */
-define('CON_TYPE', '');
+/** Default connection type to the database, incase you wanna change driver ;), uses default of the query class: PDO:mysql */
+define('CON_TYPE', 'pdo');
 
 /**
  * Sort Environment Variables.

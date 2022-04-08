@@ -3,11 +3,12 @@
   * Notice board page.
   */
 
-  require 'includes/_config.php';
-  require 'vendor/autoload.php';
+  require_once 'includes/_config.php';
+  require_once 'vendor/autoload.php';
 
   $db  = new DBCon(CON_TYPE);
   $con = $db->connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+  //var_dump($db->con_err_msg);
   $dbq = new Query($con);
   $dbq->set_fetch_mode('assoc');
 

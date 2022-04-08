@@ -194,12 +194,10 @@
 						default:
 							$d_type = 's';
 					}
-
+					// For mysqli, bind_param is the only ooption for now.
 					if($this->bind_type == 'param')
-					$this->general_obj->bind_param($d_type,$value);
-					else
-					$this->general_obj->bind_value($d_type,$value);
-					
+						$this->general_obj->bind_param($d_type,$value);
+
 				break;
 				default:
 					//switching data types
@@ -227,6 +225,7 @@
 		 * This works with the Query::prepare() method too
 		 * 
 		 * @param array $bind_data(optional): the data to be bind, can be null if theres already a $this->_bindings to be used.
+		 * For now, we just check int value or string value. for bind data types.
 		 * @return bool
 		 */
 		public function execute($bind_data = null){
@@ -239,19 +238,23 @@
 				//check for which query it is
 			switch($this->db_type){
 				case $this->db_types['mysqli']:
-					//bind the param so when looping, we assign $value, so
-					//when looping, we change $value value and run
-					$value;
-				$this->general_obj->bind_param('s',$value);
-				//loop through the array, to bind values
+					$b_types = ''; // To store the bind types, e.g 'sss'
+					// Loop through the array, to add bind string, e.g 'sss' or 'si',etc. so e.g bind_param('sss')
 					for($i = 0; $i < count($this->_bindings); $i++){
-						$value = $this->_bindings[$i];
-						$result = $this->general_obj->execute();	
+						if ( is_int( $this->_bindings[$i]) ) {
+							$b_types .= 'i';
+						} else {
+							$b_types .= 's';
+						}
 					}
+					$this->general_obj->bind_param($b_types, ...$this->_bindings);
+					$result = $this->general_obj->execute();	
+
 					if($this->is_sql_error()){//an error along the line
 						return false;//check for later
 					}
-				$this->general_obj->store_result();
+
+					//$this->general_obj->store_result();
 				break;
 				default: //pdo
 				try{
@@ -282,6 +285,8 @@
 		 * 
 		 * just like stmt->closeCursor() in PDO and  stmt->close() in mysql, should
 		 * be called after the execute() method, has to be that way to work properly.
+		 *
+		 * @return void|false False when there's no prepared object.
 		 */
 		public function close_statement(){
 			if(!$this->prepared_obj){
@@ -404,7 +409,7 @@
 				//statement, so we check
 					if($single == true){
 						if($this->prepared_obj){//its a prepared object, so fetch
-						$obj->store_result();
+						//$obj->store_result();
 					
 							$result = $obj->fetch();
 						}
@@ -420,11 +425,12 @@
 					
 						if($this->prepared_obj){//its a prepared object, so fetch
 							echo "rrrrrrrrrrrrrrrrrrrrrr";
-							$val = $this->general_obj->store_result();
-							var_dump($val);
+							//$val = $this->general_obj->store_result();
+							var_dump($this->prepared_obj);
 							//for the sake of older versions,
 							//fetch_all() only exists in mysqli version > 5.3
-							if($this->get_connection_info()->client_version < 50300){
+							var_dump($this->get_connection_info()->client_version);
+							if (!$this->get_connection_info()->client_version > 50300) {
 								$res = array();
 								while($row = $obj->fetch_array($this->fetch_mode)){
 								$res[] = $row;
@@ -434,7 +440,6 @@
 								$result = $res;
 							}
 							else{
-								
 							$result = $obj->fetch_all();
 							}
 						}
@@ -688,9 +693,7 @@
 					$this->general_obj = $this->prepared_obj;
 					$result = $this->execute();
 					$this->last_insert_id = (int)$this->con->insert_id;//get the insert id
-					echo "<br><br>fool";
-					var_dump($this->general_obj);
-			
+
 					//if($this->is_sql_error()){
 					//	return false;
 					//}

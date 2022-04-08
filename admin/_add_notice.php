@@ -5,8 +5,8 @@
   session_start();
   header("Content-Type: application/json");
 
-  require '../includes/_config.php';
-  require '../vendor/autoload.php';
+  require_once '../includes/_config.php';
+  require_once '../vendor/autoload.php';
 
   // Is admin logged in? -_-
   if (!is_admin_logged_in()) {

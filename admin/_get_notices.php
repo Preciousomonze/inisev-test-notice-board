@@ -2,11 +2,10 @@
   /**
    * Gets notices.
    */
-  session_start();
   header("Content-Type: application/json");
 
-  require '../includes/_config.php';
-  require '../vendor/autoload.php';
+  require_once '../includes/_config.php';
+  require_once '../vendor/autoload.php';
 
   // DB time!
   $db  = new DBCon(CON_TYPE);

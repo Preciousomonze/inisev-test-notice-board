@@ -1,5 +1,7 @@
 <?php 
 session_start();
-unset($_SESSION['admin']);
+if ( isset($_SESSION['admin'])) {
+    unset($_SESSION['admin']);
+}
 header('location:index.php');
 ?>
