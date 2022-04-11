@@ -336,7 +336,7 @@
 			//continue
 			switch($this->db_type){
 					case $this->db_types['mysqli']:
-						$obj->store_result();
+						 $obj->store_result();
 						//check if it's a select statement
 						if(in_array($this->get_statement_type($obj_txt),$this->sql_statement_for_count )){
 							$result = $obj->num_rows;
@@ -368,6 +368,7 @@
 						//$obj->closeCursor();
 						//$this->close_statement();
 			}
+			var_dump($result);
 			return $result;
 		}
 
@@ -406,16 +407,18 @@
 			//continue
 			switch($this->db_type){
 				case $this->db_types['mysqli']://realised that fetch_all doesnt exist for mysqli prepared
-				//statement, so we check
+					// Store result.  Use get_result for now, as long the user has mysqlnd driver enabled, fingers crossed :).
+					$stored_result =  $obj->get_result(); // $obj->store_result();
+
+					// Statement, so we check.
 					if($single == true){
 						if($this->prepared_obj){//its a prepared object, so fetch
-						//$obj->store_result();
 					
-							$result = $obj->fetch();
+							$result = $stored_result->fetch();
 						}
 						else{//normal statement
 							$res = array();
-						while($row = $this->general_obj->fetch_array($this->fetch_mode)){
+						while($row = $stored_result->fetch_array($this->fetch_mode)){
 							$res[] = $row;
 						}
 						$result = $res[0];
@@ -424,15 +427,13 @@
 					else{//more than one result
 					
 						if($this->prepared_obj){//its a prepared object, so fetch
-							echo "rrrrrrrrrrrrrrrrrrrrrr";
-							//$val = $this->general_obj->store_result();
+							$res = array();
 							var_dump($this->prepared_obj);
-							//for the sake of older versions,
+							// For the sake of older versions,
 							//fetch_all() only exists in mysqli version > 5.3
 							var_dump($this->get_connection_info()->client_version);
-							if (!$this->get_connection_info()->client_version > 50300) {
-								$res = array();
-								while($row = $obj->fetch_array($this->fetch_mode)){
+							if ($this->get_connection_info()->client_version > 50300) {
+								while($row = $stored_result->fetch_array($this->fetch_mode)){
 								$res[] = $row;
 								}
 								//$res[] = $obj->fetch_all($this->fetch_mode);
@@ -440,12 +441,11 @@
 								$result = $res;
 							}
 							else{
-							$result = $obj->fetch_all();
+							$result = $stored_result->fetch_all();
 							}
 						}
 						else{//normal statement
-							$res = array();
-						while($row = $obj->fetch_array($this->fetch_mode)){
+						while($row = $stored_result->fetch_array($this->fetch_mode)){
 							$res[] = $row;
 						}
 						$result = $res;
@@ -751,7 +751,6 @@
 							}
 							else if($this->token == $update){
 								$result = $this->con->exec($q);
-							
 							} 
 							else if($this->token == $delete){
 								$result = $this->con->exec($q);

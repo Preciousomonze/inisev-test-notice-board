@@ -18,7 +18,10 @@
 
     $db = new DBCon(CON_TYPE);
     $con = $db->connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-    //var_dump($db->con_err_msg);
+
+    // Handle error, incase.
+    handle_db_error($db, true, true);
+
     $dbq = new Query($con);
     $dbq->set_fetch_mode('assoc');
 

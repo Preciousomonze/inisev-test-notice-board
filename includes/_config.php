@@ -14,7 +14,7 @@ define('ENV', 'production');
 /** Defining ENVIRONMENT for DB*/
 $db_data = array(
 	'production' => array( // Defining LIVE ENVIRONMENT for DB.
-		'db_host'     => '188.34.190.123',
+		'db_host'     => 'localhost',
 		'db_name'     => 'cx_notice_board',
 		'db_user'     => 'root',
 		'db_password' => 'aRctNdJduXFtRhWH7UuRAT',
@@ -139,4 +139,58 @@ function generate_notice_boards($notices) {
         </div>';
     }
     return $notice_data;
+}
+
+/**
+ * Handles DB error properly.
+ *
+ * @param mixed  $query The query object
+ * @param bool   $exit if true, it exits the script.
+ * 
+ * @param string $msg (optional) To replace default error.
+ * @return mixed
+ */
+function handle_db_error($query, $exit, $load_html = false, $msg = '') {
+	// Dose it belong to any?
+	if (!(is_object($query) || $query instanceof DBCon || $query instanceof Query ) )
+		return;
+
+	$err_msg = '';
+
+	if (property_exists($query, 'con_err_msg')) {
+		$err_msg = $query->con_err_msg;
+	} elseif (property_exists($query, 'err_msg')) {
+		$err_msg = $query->err_msg;
+	} else {
+		return;
+	}
+
+	if (empty($err_msg)) { // No error.
+		return;
+	}
+
+	// Error.
+	if ( !empty(trim($msg))) { // Replace with custom message.
+		$err_msg = $msg;
+	}
+
+	if ($load_html) {
+	?>
+	<!DOCTYPE html>
+	<html>
+	 <head>
+        <title>Error - Precious Inisev Notice boards</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    </head>
+    <body>
+		<div class="container"><div class="alert alert-danger" role="alert"><?php echo $err_msg; ?></div></div>
+	</body>
+	</html>
+	<?php
+	} else {
+		echo '<div class="alert alert-danger" role="alert">' . $err_msg . '</div>';
+	}
+	if ($exit) 
+		exit;
 }

@@ -8,7 +8,10 @@
 
   $db  = new DBCon(CON_TYPE);
   $con = $db->connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-  //var_dump($db->con_err_msg);
+
+  // Handle error, incase.
+  handle_db_error($db, true, true);
+
   $dbq = new Query($con);
   $dbq->set_fetch_mode('assoc');
 
@@ -27,7 +30,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Pekky Inisev Notice boards</title>
+        <title>Precious Inisev Notice boards</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
         <link href="assets/css/notes.css" rel="stylesheet">
