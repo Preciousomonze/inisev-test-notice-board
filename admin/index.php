@@ -61,21 +61,6 @@ if ($dbq->row_count < 1) {
                 echo $notices;
             }
         ?>
-            <div class="col-md-4 single-note-item all-category note-important" style="">
-                <div class="card card-body">
-                    <span class="side-stick"></span>
-                    <h5 class="note-title text-truncate w-75 mb-0" data-noteheading="Give salary to employee">Give salary to employee <i class="point fa fa-circle ml-1 font-10"></i></h5>
-                    <p class="note-date font-12 text-muted">15 Fabruary 2020</p>
-                    <div class="note-content">
-                        <p class="note-inner-content text-muted" data-notecontent="Blandit tempus porttitor aasfs. Integer posuere erat a ante venenatis.">Blandit tempus porttitor aasfs. Integer posuere erat a ante venenatis.</p>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <span class="mr-1"><i class="fa fa-trash remove-note"></i></span>
-                        <div class="ml-auto">
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
