@@ -16,7 +16,7 @@ $db_data = array(
 	'production' => array( // Defining LIVE ENVIRONMENT for DB.
 		'db_host'     => 'localhost',
 		'db_name'     => 'cx_notice_board',
-		'db_user'     => 'root',
+		'db_user'     => 'codexplorer',
 		'db_password' => 'aRctNdJduXFtRhWH7UuRAT',
 		'db_charset'  => 'utf8',
 	),
@@ -28,7 +28,7 @@ $db_data = array(
 		'db_charset'  => 'utf8',
 	),
 );
-
+//test80-inisev-interview
 // Run the Environment sorting.
 sort_env_vars(ENV);
 
